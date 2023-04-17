@@ -106,22 +106,93 @@ span.psw {
 
 .logocontainer {
   position: absolute;
-  left: 2em;
-  top: 5em;
+  left: 2px;
+  top: 5px;
 }
 
 .smalllogo {
   width: 10%;
   border-radius: 50%;
-
+  float: left;
+  left: 10px;
 }
 
 .user-profile {
   position: absolute;
-  right: 2em;
-  top: 3em;
+  right: 10px;
+  top: 8px;
 }
 
 .profileIcon {
+  width: 100%;
   border-radius: 50%;
+}
+
+.cardimg {
+  width: 100%;
+}
+
+.card1 {
+  display: inline-block;
+  width: 100%;
+  margin: 5%;
+  margin-top: 0%;
+}
+.card2 {
+  display: inline-block;
+  float: right;
+  width: 100%;
+  margin: 5%;
+  margin-top: 0%;
+}
+
+.recent-codes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.recentcode {
+  text-align: center;
+  margin : 100;
+}
+
+.app-header, .app-content {
+  flex: 1;
+  background-color:	#C0C0C0;
+ 
+}
+
+.appBar {
+  background: #C0C0C0; 
+  height: '50px'; 
+  display: 'flex';
+  Content: 'center';
+}
+
+.codeMenuButton {
+  margin-right: 2em;
+}
+
+.codeMenuTitle{
+  float: left;
+  width: 100px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.editor {
+  margin-top: 1em;
+}
+
+.codeTitle {
+  display: inline-block;
+  margin-top: 2%;
+  margin-left: 2%;
+}
+
+.downloadcloud, .uploadcloud {
+  width: 13%;
+  float: left
 }
