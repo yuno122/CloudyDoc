@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import logo from "../img/logo.png";
 import uploadCloud from "../img/uploadCloud.svg";
 import downloadCloud from "../img/downloadCloud.svg";
-import optionFile from './optionsFile';
 
 import Editor from '@monaco-editor/react';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@mui/material';
