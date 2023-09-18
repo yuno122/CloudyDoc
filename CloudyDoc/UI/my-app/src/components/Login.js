@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import logo from '../img/logo.png';
 import Join from './Join';
-import { Link, BrowserRouter, Route, Switch, Routes} from "react-router-dom";
+import { Link, useNavigate, BrowserRouter, Route, Switch, Routes} from "react-router-dom";
 import Button from '@mui/material/Button';
+import { auth } from "../firebase-config";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
-function Login() {
+function Login(props) {
     const [inputId, setInputId] = useState("")
     const [inputPw, setInputPw] = useState("")
 
@@ -22,6 +24,21 @@ function Login() {
     const onClickLogin = () => {
         console.log('click login')
     }
+
+    const navigate = useNavigate();
+    
+    const handleGoogleLogin = () => {
+        const provider = new GoogleAuthProvider(); // provider 구글 설정
+        signInWithPopup(auth, provider) // 팝업창 띄워서 로그인
+          .then((data) => {
+            props.setUserData(data.user); // user data 설정
+            console.log(data); // console에 UserCredentialImpl 출력
+            navigate("/Main");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
 
 
     // 페이지 렌더링 후 가장 처음 호출되는 함수
@@ -48,14 +65,17 @@ function Login() {
                 <div>
                     <Link to ="/Main"><Button variant="contained" class = "loginbutton"type='button' onClick={onClickLogin}>Login</Button></Link>
                 </div>
+
+                <div>
+                    <Button variant="contained" className="loginbutton" type="button" onClick={handleGoogleLogin}>구글로그인</Button>
+                </div>
             </div>
 
-                <div class="logincontainer">
-                    {/* <span class="psw">Forgot <a href="#">password?</a></span> */}                    
-                        <Link to="/Join"><Button variant='text'>회원가입</Button></Link>
+            <div class="logincontainer">
+                {/* <span class="psw">Forgot <a href="#">password?</a></span> */}                    
+                    <Link to="/Join"><Button variant='text'>회원가입</Button></Link>
                     
-                    
-                </div>
+            </div>
         </div>
             )
 }

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
 import logo from "../img/logo.png";
 import NewCode from "../img/newCode.svg";
 import LoadCode from "../img/codeLoad.svg";
@@ -17,6 +17,7 @@ import ListItemText from '@mui/material/ListItemText';
 import FolderIcon from '@mui/icons-material/Folder';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListSubheader from '@mui/material/ListSubheader';
+import { auth } from '../firebase-config';
 
 // 새 코드 카드 이미지 수정, css 수정 + 코드 작성 페이지 
 
@@ -30,18 +31,41 @@ function Main() {
         { id: 6, title: "새로운 코드 6", updatedAt: new Date() },
     ]);
 
+    const navigate = useNavigate();
+    const [userDisplayName, setUserDisplayName] = useState(""); // 유저 이름을 저장할 상태 추가
+    
+    const handleLogout = async () => {
+        try {
+          await auth.signOut(); // Firebase 로그아웃 함수를 호출합니다
+          navigate('/'); // 로그아웃 후 홈 페이지('/')로 이동합니다
+        } catch (error) {
+          console.error('로그아웃 중 오류 발생:', error);
+        }
+      };
+
+    useEffect(() => {
+        // Firebase에서 현재 로그인한 사용자 정보 가져오기
+        const user = auth.currentUser;
+        if (user) {
+            setUserDisplayName(user.displayName);
+        }
+    }, []); // 컴포넌트가 처음 렌더링될 때 한 번만 실행
+
+
     return (
-        <div>
+        <div className="main-container">
             <header className="app-header">
                 <div className="logo-container">
                     <img src={logo} alt="logo" className="smalllogo" />
                 </div>
                 <div className="user-profile">
                     <img src={ProfileIcon} className="profileIcon" />
+                    {userDisplayName && <div className="user-name">{userDisplayName}</div>}
                 </div>
+                <button className="logout-button" onClick={handleLogout}>로그아웃</button>
             </header>
             <div className="app-content">
-                <div className="app-sidebar">
+                <div className="app-sidebsar">
                     <Link to="/new-load" className="sidebar-item">
                         <Card className="card1" variant="outlined" sx={{ maxWidth: 500 }}>
                             <CardMedia sx={{ height: 520 }} className="cardimg" image={LoadCode} title="newcode" />
