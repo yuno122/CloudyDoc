@@ -17,19 +17,13 @@ import ListItemText from '@mui/material/ListItemText';
 import FolderIcon from '@mui/icons-material/Folder';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListSubheader from '@mui/material/ListSubheader';
-import { auth } from '../firebase-config';
+import { auth, storage } from '../firebase-config';
+import { ref, listAll, getDownloadURL } from 'firebase/storage';
 
 // 새 코드 카드 이미지 수정, css 수정 + 코드 작성 페이지 
 
 function Main() {
-    const [recentCodes, setRecentCodes] = useState([
-        { id: 1, title: "새로운 코드 1", updatedAt: new Date() },
-        { id: 2, title: "새로운 코드 2", updatedAt: new Date() },
-        { id: 3, title: "새로운 코드 3", updatedAt: new Date() },
-        { id: 4, title: "새로운 코드 4", updatedAt: new Date() },
-        { id: 5, title: "새로운 코드 5", updatedAt: new Date() },
-        { id: 6, title: "새로운 코드 6", updatedAt: new Date() },
-    ]);
+    const [recentCodes, setRecentCodes] = useState([]);
 
     const navigate = useNavigate();
     const [userDisplayName, setUserDisplayName] = useState(""); // 유저 이름을 저장할 상태 추가
@@ -49,7 +43,29 @@ function Main() {
         if (user) {
             setUserDisplayName(user.displayName);
         }
-    }, []); // 컴포넌트가 처음 렌더링될 때 한 번만 실행
+        const storageRef = ref(storage);
+        const fetchRecentCodes = async () => {
+            try {
+                const files = await listAll(storageRef);
+                const codes = await Promise.all(
+                    files.items.map(async (fileRef) => {
+                        const url = await getDownloadURL(fileRef);
+                        return {
+                            id: fileRef.name,
+                            title: fileRef.name.replace('.txt', ''),
+                            updatedAt: new Date(),
+                            downloadUrl: url,
+                        };
+                    })
+                );
+                setRecentCodes(codes);
+            } catch (error) {
+                console.error('파일 목록을 불러오는 중 오류 발생:', error);
+            }
+        };
+
+        fetchRecentCodes();
+    }, []);
 
 
     return (
@@ -97,7 +113,7 @@ function Main() {
                                 <ListItemIcon>
                                     <FolderIcon />
                                 </ListItemIcon>
-                                <ListItemButton href={`/code/${code.id}`}>
+                                <ListItemButton onClick={() => window.open(code.downloadUrl)} target="_blank">
                                 <ListItemText primary={code.title} />
                                 
                                 <span className="code-updated-at">
