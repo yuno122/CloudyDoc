@@ -9,12 +9,6 @@ import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@mui/ma
 import MenuIcon from '@mui/icons-material/Menu';
 import { getStorage , ref, uploadString } from 'firebase/storage';
 
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 
 const storage = getStorage();
 const storageRef = ref(storage);
@@ -23,45 +17,23 @@ function NewCode() {
 
   const [editorValue, setEditorValue] = useState("# 코드 입력");
 
-  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState('title.py'); // 초기 파일 이름 설정
   const [saveMessage, setSaveMessage] = useState(null);
 
-  function handleEditorChange(value, event) {
-    // here is the current value.
+  const handleEditorChange = (value, event) => {
     setEditorValue(value);
-  }
-
-  const handleSaveDialogClose = () => {
-    setSaveDialogOpen(false);
   };
 
-  const handleSaveConfirm = async () => {
-    if (fileName.trim() === '') {
-      alert('파일 제목을 입력하세요.');
-      return;
-    }
-
+  const handleSaveButtonClick = async () => {
     try {
       const codeRef = ref(storageRef, `${fileName}.txt`);
       await uploadString(codeRef, editorValue); 
-      setSaveMessage(`'${fileName}.txt' 파일이 성공적으로 업로드되었습니다.`);
-      setFileName(''); // 파일 제목 초기화
-      setSaveDialogOpen(false); // 다이얼로그 닫기
+      alert(`'${fileName}.txt' 파일이 성공적으로 업로드되었습니다.`);
     } catch (error) {
       console.error('코드 업로드 중 오류 발생:', error);
     }
   };
 
-  const uploadCodeToFirebaseStorage = async () => {
-    try {
-      const codeRef = ref(storageRef, 'code.txt');
-      await uploadString(codeRef, editorValue); 
-      console.log('코드가 성공적으로 업로드되었습니다.');
-    } catch (error) {
-      console.error('코드 업로드 중 오류 발생:', error);
-    }
-  };
 
   function handleEditorDidMount(editor, monaco) {
     console.log('onMount: the editor instance:', editor);
@@ -76,10 +48,6 @@ function NewCode() {
     // model markers
     // markers.forEach(marker => console.log('onValidate:', marker.message));
   }
-
-  const handleSaveButtonClick = () => {
-    setSaveDialogOpen(true);
-  };
 
 
   const [fileAnchorEl, setFileAnchorEl] = useState(null);
@@ -127,26 +95,15 @@ function NewCode() {
           <img src={logo} alt="logo" className="smalllogo" />
         </div>
         <div className='codeTitle'>
-          <h1>title.py </h1>
+          <input
+            type="text"
+            placeholder="파일 제목"
+            value={fileName}
+            onChange={(e) => setFileName(e.target.value)}
+          />
           <img src={uploadCloud} className='uploadcloud'/>
           <img src={downloadCloud} className='downloadcloud'/>
-          <Button variant="outlined" onClick={handleSaveButtonClick}>코드 저장</Button>
-          <Dialog open={saveDialogOpen} onClose={handleSaveDialogClose}>
-            <DialogTitle>파일 제목 입력</DialogTitle>
-            <DialogContent>
-              <DialogContentText>파일의 제목을 입력하세요.</DialogContentText>
-              <input
-              type="text"
-              placeholder="파일 제목"
-              value={fileName}
-              onChange={(e) => setFileName(e.target.value)}/>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleSaveDialogClose}>취소</Button>
-              <Button onClick={handleSaveConfirm} disabled={!fileName.trim()}>확인</Button>
-            </DialogActions>
-          </Dialog>
-          {saveMessage && <div>{saveMessage}</div>}
+          <button onClick={handleSaveButtonClick}>저장</button>
         </div>
         <div>
           <AppBar position="static" className="appBar" sx={{ bgcolor: "black" }} >
