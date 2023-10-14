@@ -1,3 +1,14 @@
+/*---------------------------------------------------------------
+* Class Name or File Name: NewCode
+* Description: 코드 에디터 페이지
+* Included Methods: 
+*       NewCode();
+* Author: Hanseoyoung, Shinyoonho, Seominjeong
+* Date : 2023/9/24 
+* Version: release 1.0 on 2023/9/24
+* 
+* ⓒCopyright 2023 Hanseoyoung, Shinyoonho, Seominjeong in the Department of Computer Science at Chungbuk National University, Republic of Korea. All rights reserved. Contact us e-mail: * happyunbd364@naver.com, yuno122@naver.com, 
+---------------------------------------------------------------*/
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import logo from "../img/logo.png";
@@ -12,7 +23,12 @@ import { getStorage , ref, uploadString } from 'firebase/storage';
 
 const storage = getStorage();
 const storageRef = ref(storage);
-
+/*---------------------------------------------------------------
+* Method Name: NewCode()
+* Function: 코드 에디터에 코드 불러오기
+* Parameter: 
+* Return Value:  
+---------------------------------------------------------------*/
 function NewCode() {
 
   const [editorValue, setEditorValue] = useState("# 코드 입력");

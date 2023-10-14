@@ -1,8 +1,30 @@
+/*---------------------------------------------------------------
+* Class Name or File Name: Join 
+* Description: 유저 회원가입 처리 페이지
+* Included Methods: 
+*       Join;
+*       handleChange;
+*       handleSubmit;
+* Author: Hanseoyoung, Shinyoonho, Seominjeong
+* Date : 2023/9/24 
+* Version: release 1.0 on 2023/9/24
+* 
+* ⓒCopyright 2023 Hanseoyoung, Shinyoonho, Seominjeong in the Department of Computer Science at Chungbuk National University, Republic of Korea. All rights reserved. Contact us e-mail: * happyunbd364@naver.com, yuno122@naver.com, 
+---------------------------------------------------------------*/
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import logo from '../img/logo.png';
 import Button from '@mui/material/Button';
-
+/*---------------------------------------------------------------
+* Method Name: Join(props)
+* Function: ‘학생’ 데이터베이스에 새로운 학생을 추가하는 기능을 수행한다. 
+* Parameter: username: 이름
+             password: 비밀번호
+             passwordConfirm: 비밀번호  확인
+             email: 이메일
+             nickname: 별명
+* Return Value:  
+---------------------------------------------------------------*/
 function Join(props) {
   const [formData, setFormData] = useState({
     username: '',

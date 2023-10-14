@@ -1,3 +1,15 @@
+/*---------------------------------------------------------------
+* Class Name or File Name: Login 
+* Description: 유저 로그인 화면, 이벤트 처리 페이지
+* Included Methods: 
+*          Login(props)
+*          
+* Author: Hanseoyoung, Shinyoonho, Seominjeong
+* Date : 2023/9/24 
+* Version: release 1.0 on 2023/9/24
+* 
+* ⓒCopyright 2023 Hanseoyoung, Shinyoonho, Seominjeong in the Department of Computer Science at Chungbuk National University, Republic of Korea. All rights reserved. Contact us e-mail: * happyunbd364@naver.com, yuno122@naver.com, 
+---------------------------------------------------------------*/
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import logo from '../img/logo.png';
@@ -6,7 +18,13 @@ import { Link, useNavigate, BrowserRouter, Route, Switch, Routes} from "react-ro
 import Button from '@mui/material/Button';
 import { auth } from "../firebase-config";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
+import googleLogo from "../img/googleLogo.png"
+/*---------------------------------------------------------------
+* Method Name: Login(props)
+* Function: use State에 아이디와 패스워드를 넣음
+* Parameter: 
+* Return Value:  
+---------------------------------------------------------------*/
 function Login(props) {
     const [inputId, setInputId] = useState("")
     const [inputPw, setInputPw] = useState("")
@@ -64,10 +82,12 @@ function Login(props) {
 
                 <div>
                     <Link to ="/Main"><Button variant="contained" class = "loginbutton"type='button' onClick={onClickLogin}>Login</Button></Link>
+                    
                 </div>
 
                 <div>
-                    <Button variant="contained" className="loginbutton" type="button" onClick={handleGoogleLogin}>구글로그인</Button>
+                    <Button variant="contained" className="googlebutton" type="button" onClick={handleGoogleLogin}><img src={googleLogo} alt="Google 로고" className="google-logo" />구글로그인
+                    </Button>
                 </div>
             </div>
 
